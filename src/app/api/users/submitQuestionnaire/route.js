@@ -1,38 +1,34 @@
 import { connect } from "@/dbConfig/dbConfig";
-import User from '@/models/user.model';
+import User from "@/models/user.model";
+import { getTokenData } from "@/utils/getTokenData";
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
-
-  const { disorders } = req.body;
+export async function POST(req, res) {
+  const { disorders } = await req.json(); // Parse JSON body
 
   try {
     await connect();
 
-    // Fetch the current user (You might use a token-based system or session)
-    const user = await User.findById(req.user.id);
-
+    // Retrieve user ID from token
+    const userID = await getTokenData(req);
+    const user = await User.findOne({ _id: userID }).select("-password");
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return new Response(JSON.stringify({ message: "User not found" }), { status: 404 });
     }
 
-    // Update user's mental disorders without severity
-    disorders.forEach((disorder) => {
-      if (!user.mentalDisorders.some(d => d.disorderName === disorder.name)) {
+    disorders.forEach(({ name }) => {
+      if (!user.mentalDisorders.some(d => d.disorderName === name)) {
         user.mentalDisorders.push({
-          disorderName: disorder.name,
-          severity: null, // Not setting severity yet
+          disorderName: name,
+          severity: null, // Leave severity unassigned
         });
       }
     });
 
     await user.save();
 
-    return res.status(200).json({ message: 'Disorders updated successfully' });
+    return new Response(JSON.stringify({ message: "Disorders updated successfully" }), { status: 200 });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Server error' });
+    return new Response(JSON.stringify({ message: "Server error" }), { status: 500 });
   }
 }

@@ -9,6 +9,7 @@ const dailyTaskRecordSchema = new mongoose.Schema({
   completedTasks: {
     type: Number,
     default: 0,
+    required: true,
   },
 });
 
@@ -30,7 +31,7 @@ const disorderSchema = new mongoose.Schema({
     type: Number,
     min: 1,
     max: 10,
-    required: true,
+    default: null,
   },
   diagnosisDate: {
     type: Date,
