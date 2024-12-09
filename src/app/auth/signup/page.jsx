@@ -16,10 +16,9 @@ const SignupPage = () => {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter(); // only initialized in client components
+  const router = useRouter();
 
   useEffect(() => {
-    // Update button disabled state only on client-side render
     setButtonDisabled(
       !(user.email.length > 0 && user.password.length > 0 && user.username.length > 0)
     );

@@ -31,7 +31,7 @@ export default function SeverityTest({ disorderName, questions }) {
         }
 
         const totalScore = responses.reduce((acc, curr) => acc + curr, 0);
-        const finalScore = totalScore / responses.length;
+        const finalScore = (totalScore / responses.length) * 2;
         try {
             await axios.post("/api/users/submitSeverityTest", {
                 disorderName,
