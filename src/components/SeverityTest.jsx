@@ -7,14 +7,13 @@ import { useRouter } from "next/navigation";
 export default function SeverityTest({ disorderName, questions }) {
     const router = useRouter();
     const [responses, setResponses] = useState(Array(questions.length).fill(0));
-    const [tooltipIndex, setTooltipIndex] = useState(-1); // State for the tooltip
+    const [tooltipIndex, setTooltipIndex] = useState(-1);
     const questionRefs = useRef(questions.map(() => React.createRef()));
 
     const handleOptionChange = (index, value) => {
         const newResponses = [...responses];
         newResponses[index] = value;
         setResponses(newResponses);
-        // Hide the tooltip if the question is answered
         if (tooltipIndex === index) {
             setTooltipIndex(-1);
         }
@@ -27,7 +26,7 @@ export default function SeverityTest({ disorderName, questions }) {
                 behavior: "smooth",
                 block: "center",
             });
-            setTooltipIndex(unansweredIndex); // Show tooltip for the unanswered question
+            setTooltipIndex(unansweredIndex);
             return;
         }
 
@@ -47,9 +46,9 @@ export default function SeverityTest({ disorderName, questions }) {
     };
 
     return (
-        <div className="p-8 bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen text-white">
+        <div className="p-8 bg-gradient-to-b from-blue-100 to-blue-200 min-h-screen text-gray-800">
             <div className="max-w-3xl mx-auto">
-                <h1 className="text-4xl font-extrabold text-center text-blue-400 mb-8">
+                <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-8">
                     {`${disorderName} Assessment`}
                 </h1>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
@@ -57,13 +56,13 @@ export default function SeverityTest({ disorderName, questions }) {
                         <div
                             key={index}
                             ref={questionRefs.current[index]}
-                            className="relative p-4 bg-gray-800 rounded-lg shadow-lg"
+                            className="relative p-6 bg-white rounded-lg shadow-xl"
                         >
                             <p className="mb-4 text-lg font-semibold">{`${index + 1}. ${question}`}</p>
                             {tooltipIndex === index && (
-                                <div className="absolute left-2 top-[-40px] w-40 p-2 bg-gray-700 text-red-400 text-sm rounded shadow-lg z-10">
+                                <div className="absolute left-2 top-[-40px] w-40 p-2 bg-red-300 text-red-800 text-sm rounded shadow-lg z-10">
                                     This question is required
-                                    <div className="absolute left-2 top-full w-3 h-3 transform rotate-45 bg-gray-700"></div>
+                                    <div className="absolute left-2 top-full w-3 h-3 transform rotate-45 bg-red-300"></div>
                                 </div>
                             )}
                             <div className="flex flex-wrap space-x-4">
@@ -84,9 +83,9 @@ export default function SeverityTest({ disorderName, questions }) {
                                             value={option.value}
                                             checked={responses[index] === option.value}
                                             onChange={() => handleOptionChange(index, option.value)}
-                                            className="form-radio w-6 h-6 rounded-full border-2 border-gray-600 checked:bg-blue-500 hover:bg-blue-400 focus:ring-2 focus:ring-blue-400 transition duration-200"
+                                            className="form-radio w-6 h-6 rounded-full border-2 border-blue-500 checked:bg-blue-600 hover:bg-blue-500 focus:ring-2 focus:ring-blue-300 transition duration-200 cursor-pointer"
                                         />
-                                        <span className="text-gray-300 group-hover:text-white transition duration-200 ease-in-out">
+                                        <span className="text-gray-700 group-hover:text-blue-600 transition duration-200 ease-in-out">
                                             {option.label}
                                         </span>
                                     </label>
@@ -98,7 +97,7 @@ export default function SeverityTest({ disorderName, questions }) {
                         <button
                             type="button"
                             onClick={calculateScore}
-                            className="bg-blue-500 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-blue-400 transition duration-300 ease-in-out shadow-lg hover:shadow-blue-500/40"
+                            className="bg-blue-500 text-white py-3 px-6 rounded-full font-semibold text-lg shadow-lg hover:bg-blue-400 transition duration-300 ease-in-out"
                         >
                             Submit Test
                         </button>

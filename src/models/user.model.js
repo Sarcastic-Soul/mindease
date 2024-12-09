@@ -1,15 +1,30 @@
 import mongoose from "mongoose";
 
+// Task Schema for individual daily tasks
+const taskSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  isCompleted: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 // Daily Task Record Schema
 const dailyTaskRecordSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
   },
+  tasks: {
+    type: [taskSchema],
+    default: [],
+  },
   completedTasks: {
     type: Number,
     default: 0,
-    required: true,
   },
 });
 

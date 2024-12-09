@@ -4,17 +4,26 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
 const SignupPage = () => {
-  const router = useRouter();
   const [user, setUser] = useState({
     email: "",
     password: "",
     username: "",
   });
 
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter(); // only initialized in client components
+
+  useEffect(() => {
+    // Update button disabled state only on client-side render
+    setButtonDisabled(
+      !(user.email.length > 0 && user.password.length > 0 && user.username.length > 0)
+    );
+  }, [user]);
 
   const onSignup = async () => {
     try {
@@ -30,40 +39,32 @@ const SignupPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (
-      user.email.length > 0 &&
-      user.password.length > 0 &&
-      user.username.length > 0
-    ) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
-  }, [user]);
-
   return (
     <div
       style={{
-        background:
-          "radial-gradient(circle, rgba(40,46,96,1) 10%, rgba(34,39,79,1) 30%, rgba(15,16,33,1) 60%, rgba(0,0,0,1) 95%)",
+        background: "linear-gradient(120deg, #e0f7fa, #e3f2fd, #f3e5f5, #fce4ec)",
+        animation: "gradient 10s ease infinite",
       }}
-      className="flex items-center justify-center min-h-screen bg-gray-900"
+      className="flex items-center justify-center min-h-screen bg-gray-100 relative overflow-hidden"
     >
+      <style>
+        {`
+          @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
+
       <div className="max-w-lg w-full">
-        <div
-          className="bg-gray-800 rounded-lg shadow-xl overflow-hidden"
-          style={{
-            boxShadow:
-              "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-          }}
-        >
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:shadow-xl">
           <div className="p-8">
-            <h2 className="text-center text-3xl font-extrabold text-white">
+            <h2 className="text-center text-3xl font-bold text-blue-800">
               Create an Account
             </h2>
-            <p className="mt-4 text-center text-gray-400">
-              Sign up to get started
+            <p className="mt-4 text-center text-blue-600">
+              Join us to begin your journey
             </p>
 
             <div className="mt-8 space-y-6">
@@ -82,7 +83,7 @@ const SignupPage = () => {
                     }
                     required
                     placeholder="Username"
-                    className="appearance-none relative block w-full px-3 py-3 border border-gray-700 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 border border-blue-200 bg-blue-50 text-blue-800 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-300 sm:text-sm"
                   />
                 </div>
                 <div className="mt-4">
@@ -99,7 +100,7 @@ const SignupPage = () => {
                     }
                     required
                     placeholder="Email address"
-                    className="appearance-none relative block w-full px-3 py-3 border border-gray-700 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 border border-blue-200 bg-blue-50 text-blue-800 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-300 sm:text-sm"
                   />
                 </div>
                 <div className="mt-4 relative">
@@ -109,15 +110,25 @@ const SignupPage = () => {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={user.password}
                     onChange={(e) =>
                       setUser({ ...user, password: e.target.value })
                     }
                     required
                     placeholder="Password"
-                    className="appearance-none relative block w-full px-3 py-3 border border-gray-700 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-3 border border-blue-200 bg-blue-50 text-blue-800 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-300 sm:text-sm"
                   />
+                  <div
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-blue-400"
+                  >
+                    {showPassword ? (
+                      <EyeOffIcon className="h-5 w-5" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5" />
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -125,22 +136,21 @@ const SignupPage = () => {
                 <button
                   onClick={onSignup}
                   disabled={buttonDisabled}
-                  className={`group relative w-full flex justify-center py-3 px-4 text-sm font-medium rounded-md text-white ${
-                    buttonDisabled
-                      ? "bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed opacity-50"
-                      : "bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600"
-                  } transition ease-in-out duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                  className={`group relative w-full flex justify-center py-3 px-4 text-sm font-medium rounded-md text-white ${buttonDisabled
+                    ? "bg-gradient-to-r from-blue-300 to-blue-400 cursor-not-allowed opacity-50"
+                    : "bg-gradient-to-r from-blue-500 to-teal-500 hover:scale-105 hover:shadow-lg transition duration-300"
+                    }`}
                 >
-                  {loading ? "Processing" : "Sign Up"}
+                  {loading ? "Processing..." : "Sign Up"}
                 </button>
               </div>
             </div>
           </div>
-          <div className="px-8 py-4 bg-gray-700 text-center">
-            <span className="text-gray-400">Already have an account?</span>
+          <div className="px-8 py-4 bg-blue-50 text-center">
+            <span className="text-blue-700">Already have an account?</span>
             <Link
               href="/auth/login"
-              className="font-medium text-indigo-500 hover:text-indigo-400"
+              className="font-medium text-blue-500 hover:text-teal-500 transition duration-200"
             >
               Log in
             </Link>
