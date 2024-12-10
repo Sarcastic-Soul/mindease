@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { PlusCircleIcon, UsersIcon } from "@heroicons/react/solid"; 
 import { HeartIcon } from "@heroicons/react/outline";
-import PostModal from "./PostModal";
-import CreatePost from "./CreatePost";
+import PostModal from "./postModal";
+import CreatePost from "./createPost";
 
 function CommunityPosts() {
   const [posts, setPosts] = useState([]);
