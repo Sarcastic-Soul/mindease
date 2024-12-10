@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -11,15 +11,28 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const buttonRef = useRef(null);
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     setButtonDisabled(!(user.email.length > 0 && user.password.length > 0));
   }, [user]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        buttonRef.current?.click();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const onLogin = async () => {
     try {
@@ -29,6 +42,7 @@ const LoginPage = () => {
       router.push("/dashboard");
     } catch (error) {
       console.log("Login failed");
+      setErrorMessage("Email or password entered is incorrect.");
       toast.error(error.message);
     } finally {
       setLoading(false);
@@ -114,10 +128,11 @@ const LoginPage = () => {
               <div>
                 <button
                   onClick={onLogin}
+                  ref={buttonRef}
                   disabled={buttonDisabled}
                   className={`group relative w-full flex justify-center py-3 px-4 text-sm font-medium rounded-md text-white ${buttonDisabled
-                      ? "bg-gradient-to-r from-blue-300 to-blue-400 cursor-not-allowed opacity-50"
-                      : "bg-gradient-to-r from-blue-500 to-teal-500 hover:scale-105 hover:shadow-lg transition duration-300"
+                    ? "bg-gradient-to-r from-blue-300 to-blue-400 cursor-not-allowed opacity-50"
+                    : "bg-gradient-to-r from-blue-500 to-teal-500 hover:scale-105 hover:shadow-lg transition duration-300"
                     }`}
                 >
                   {loading ? "Processing..." : "Sign In"}
@@ -125,6 +140,12 @@ const LoginPage = () => {
               </div>
             </div>
           </div>
+          {errorMessage && (
+            <div className="px-8 py-4 text-center text-red-600">
+              {errorMessage}
+            </div>
+          )}
+
           <div className="px-8 py-4 bg-blue-50 text-center">
             <span className="text-blue-700">Don't have an account?</span>
             <Link

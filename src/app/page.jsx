@@ -8,9 +8,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-200 via-white to-blue-100 text-gray-800 font-sans">
       {/* Logo on Top Left */}
-      <Link href="/" className="absolute top-4 left-4 z-20 flex items-center space-x-2">
+      <Link href="/" className="absolute top-4 left-10 z-20 flex items-center space-x-2">
         <Image
-          src="/test.svg" // Replace with your logo path
+          src="/logo.svg"
           alt="MindEase Logo"
           width={100}
           height={100}
@@ -20,17 +20,18 @@ export default function LandingPage() {
       {/* Hero Section */}
       <main className="relative flex items-center justify-center h-screen overflow-hidden">
         <Image
-          src="/Home-background.png"
+          src="/back2.png"
           alt="Calming Background"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           className="opacity-50"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center space-y-6 px-4">
-          <h2 className="text-4xl md:text-6xl font-bold leading-tight text-blue-900">
-            Find Peace with <span className="bg-gradient-to-r from-purple-500 to-blue-600 bg-clip-text text-transparent">MindEase</span>
+          <h2 className="text-4xl md:text-6xl font-bold leading-tight text-blue-900 relative">
+            Find Peace with{' '}
+            <span className="animated-gradient bg-clip-text text-transparent">MindEase</span>
           </h2>
-            <p className="text-lg md:text-2xl max-w-2xl mx-auto text-blue-700">
+          <p className="text-lg md:text-2xl max-w-2xl mx-auto text-blue-700">
             Diagnose, understand, and manage your mental health with MindEase’s supportive, data-driven approach.
           </p>
           <div className="flex space-x-8"> {/* Increased space between buttons */}
