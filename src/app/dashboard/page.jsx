@@ -4,8 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { XIcon, ClipboardCheckIcon } from "@heroicons/react/outline";
-import StreakComponent from "@/components/streak";
-import TaskHeatmap from "@/components/taskHeatmap";
 import Sidebar from "./sidebar";
 import Link from "next/link"; // Import Link from Next.js
 
@@ -16,8 +14,7 @@ export default function DashboardPage() {
   const [hasCompletedQuestionnaire, setHasCompletedQuestionnaire] = useState(false);
   const [detectedDisorders, setDetectedDisorders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [streak, setStreak] = useState(0);
-  const [taskData, setTaskData] = useState([]);
+
 
   useEffect(() => {
     getUserName();
@@ -28,8 +25,7 @@ export default function DashboardPage() {
     try {
       const res = await axios.post("/api/users/profile");
       setUsername(res.data.data.username);
-      setStreak(res.data.data.streak || 0);
-      setTaskData(res.data.data.taskRecords || []);
+      
     } catch (error) {
       console.error(error.message);
     }
@@ -121,8 +117,7 @@ export default function DashboardPage() {
             </>
           )}
         </div>
-        <StreakComponent streak={streak}></StreakComponent>
-        <TaskHeatmap taskData={taskData}></TaskHeatmap>
+        
       </main>
 
       {

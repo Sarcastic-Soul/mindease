@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { getTokenData } from "@/utils/getTokenData";
 import User from "@/models/user.model";
 
-connect();
+await connect();
 
 export async function POST(request) {
   //extract data from token

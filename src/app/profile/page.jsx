@@ -3,12 +3,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { XIcon } from "@heroicons/react/outline";
+import StreakComponent from "@/components/streak";
+import TaskHeatmap from "@/components/taskHeatmap";
 
 export default function ProfilePage() {
     const [username, setUsername] = useState("");
     const [detectedDisorders, setDetectedDisorders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [streak, setStreak] = useState(0);
+    const [taskData, setTaskData] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -25,6 +28,8 @@ export default function ProfilePage() {
                 severity: disorder.severity,
             }));
             setDetectedDisorders(disorders);
+            setStreak(res.data.data.streak || 0);
+            setTaskData(res.data.data.taskRecords || []);
         } catch (error) {
             console.error("Error fetching profile:", error.message);
         } finally {
@@ -34,7 +39,7 @@ export default function ProfilePage() {
 
     return (
         <div className="flex justify-center items-center h-screen bg-gradient-to-br from-blue-200 to-blue-300 text-gray-900">
-            <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+            <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
                 <header className="flex justify-between items-center mb-6">
                     <h1 className="text-4xl font-extrabold text-blue-600">Your Profile</h1>
                 </header>
@@ -73,9 +78,11 @@ export default function ProfilePage() {
                                 <li className="text-gray-600">No disorders detected.</li>
                             )}
                         </ul>
+                        <StreakComponent streak={streak}></StreakComponent>
+                        <TaskHeatmap taskData={taskData}></TaskHeatmap>
 
                         <button
-                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-400 transition duration-300 mt-6 w-full"
+                            className=" bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-blue-400 transition duration-300 mt-6"
                             onClick={async () => {
                                 await axios.get("/api/users/logout");
                                 router.push("/");
@@ -83,6 +90,7 @@ export default function ProfilePage() {
                         >
                             Logout
                         </button>
+
                     </>
                 )}
             </div>

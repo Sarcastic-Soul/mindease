@@ -8,7 +8,7 @@ const TaskHeatmap = ({ taskData }) => {
     }));
     console.log(formattedData);
     return (
-        <div className="h-80">
+        <div className='h-48 w-full'>
             <ResponsiveCalendar
                 data={formattedData}
                 from="2024-01-01"

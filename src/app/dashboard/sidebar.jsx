@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { CheckCircleIcon, BookOpenIcon, EmojiHappyIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon, BookOpenIcon, EmojiHappyIcon, UsersIcon } from "@heroicons/react/outline";
 
 const Sidebar = () => {
     const router = useRouter();
@@ -34,6 +34,15 @@ const Sidebar = () => {
                             onClick={() => router.push("/meditation")}
                         >
                             Meditation
+                        </button>
+                    </li>
+                    <li className="mb-4 flex items-center p-2 rounded-lg bg-white hover:bg-blue-50 transition duration-300 shadow-md hover:shadow-lg">
+                        <UsersIcon className="w-5 h-5 text-cyan-500 mr-2" />
+                        <button
+                            className="text-blue-600"
+                            onClick={() => router.push("/community")}
+                        >
+                            Community
                         </button>
                     </li>
                 </ul>
