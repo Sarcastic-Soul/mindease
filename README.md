@@ -24,6 +24,9 @@ MindEase is a web application developed by me and my team as part of our 3rd-sem
 - **Backend:** MongoDB, Mongoose
 - **API:** Axios for API calls and data fetching
 
+## Website
+- Website is currently in production on Vercel: https://mindease-mpqnna3mj-anish-kumars-projects-4d4aed63.vercel.app/
+
 ## Setup
 
 To run the project locally, follow these steps:
