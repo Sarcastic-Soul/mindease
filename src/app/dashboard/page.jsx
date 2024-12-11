@@ -68,7 +68,7 @@ export default function DashboardPage() {
             aria-label="Profile menu"
           >
             <img
-              src="https://via.placeholder.com/40"
+              src="/pfp.png"
               alt="User profile picture"
               className="w-12 h-12 rounded-full border-2 border-blue-500"
             />
@@ -135,7 +135,7 @@ export default function DashboardPage() {
             </button>
             <div className="flex flex-col items-center mt-12">
               <img
-                src="https://via.placeholder.com/40"
+                src="/pfp.png"
                 alt="User profile picture"
                 className="w-24 h-24 rounded-full border-4 border-blue-500 mb-4"
               />

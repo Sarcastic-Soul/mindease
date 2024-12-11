@@ -50,7 +50,7 @@ export default function ProfilePage() {
                     <>
                         <div className="flex flex-col items-center mb-8">
                             <img
-                                src="https://via.placeholder.com/150"
+                                src="/pfp.png"
                                 alt="User profile picture"
                                 className="w-24 h-24 rounded-full border-4 border-blue-500 mb-4"
                             />
