@@ -32,6 +32,9 @@ const TaskChecklist = () => {
 
                 const taskDateBeforeUpdate = user.currentTasks.length > 0 ? user.currentTasks[0].date : null;
                 if (todayTasks.length === 0) {
+                    console.log(user._id);
+                    console.log(taskDateBeforeUpdate);
+                    console.log(user.currentTasks);
                     await axios.patch("/api/users/update-taskRecord", {
                         userId: user._id,
                         date: taskDateBeforeUpdate,

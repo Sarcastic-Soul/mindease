@@ -7,7 +7,7 @@ export async function PATCH(req) {
         const { userId, date, completedTasks } = await req.json();
 
         // Validate input
-        if (!userId || !date || completedTasks === undefined) {
+        if (!userId || completedTasks === undefined) {
             return NextResponse.json({ message: "User ID, date, and completed tasks are required" }, { status: 400 });
         }
 

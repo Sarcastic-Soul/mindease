@@ -2,6 +2,7 @@ const disorders = [
     {
         name: "Depression",
         description: "A mental health disorder characterized by persistently depressed mood.",
+        image: "/images/depr.png",
         symptoms: ["Feeling sad", "Loss of interest", "Fatigue", "Anxiety"],
         problems: ["Difficulty focusing", "Low self-esteem", "Social withdrawal"],
         cureMethods: ["Therapy", "Medication", "Lifestyle changes"],
@@ -15,6 +16,7 @@ const disorders = [
     {
         name: "Anxiety Disorder",
         description: "A disorder involving excessive worry and fear.",
+        image: "/images/anx.png",
         symptoms: ["Restlessness", "Difficulty concentrating", "Irritability"],
         problems: ["Sleep issues", "Muscle tension", "Avoidance behavior"],
         cureMethods: ["CBT", "Medication", "Mindfulness practices"],
@@ -28,6 +30,7 @@ const disorders = [
     {
         name: "ADHD",
         description: "Attention-Deficit/Hyperactivity Disorder (ADHD) is a neurodevelopmental disorder that affects both children and adults. It is characterized by difficulty maintaining attention, impulsiveness, and hyperactivity.",
+        image: "/images/adhd.png",
         symptoms: [
             "Inattention to details",
             "Difficulty organizing tasks",
@@ -53,6 +56,7 @@ const disorders = [
     {
         name: "PTSD",
         description: "Post-Traumatic Stress Disorder (PTSD) occurs in some people after experiencing or witnessing a life-threatening event. It is marked by persistent re-experiencing of the trauma, avoidance of reminders, and heightened arousal.",
+        image: "/images/ptsd.jpg",
         symptoms: [
             "Flashbacks or nightmares",
             "Severe anxiety",
@@ -77,6 +81,7 @@ const disorders = [
     {
         name: "Eating Disorder",
         description: "Eating disorders are characterized by abnormal or disturbed eating habits that negatively affect health, emotions, and quality of life. They include conditions such as anorexia nervosa, bulimia nervosa, and binge-eating disorder.",
+        image: "/images/eat.jpg",
         symptoms: [
             "Extreme concern about weight",
             "Preoccupation with food and dieting",
@@ -100,6 +105,7 @@ const disorders = [
     {
         name: "Schizophrenia",
         description: "Schizophrenia is a severe mental disorder that affects how a person thinks, feels, and behaves. It often manifests as delusions, hallucinations, and disorganized thinking.",
+        image: "/images/sz.jpg",
         symptoms: [
             "Delusions (false beliefs)",
             "Hallucinations (seeing or hearing things that are not there)",
@@ -123,6 +129,7 @@ const disorders = [
     {
         name: "Bipolar Disorder",
         description: "Bipolar disorder is a mental health condition characterized by extreme mood swings that include emotional highs (mania or hypomania) and lows (depression).",
+        image: "/images/bd.jpg",
         symptoms: [
             "Mood changes from high energy to hopelessness",
             "Increased activity or energy during manic phases",
