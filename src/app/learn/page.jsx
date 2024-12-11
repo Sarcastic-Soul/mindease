@@ -1,16 +1,16 @@
 "use client";
-
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import disorders from "./disordersData";
+import additionalDisorders from "./additionalDisorders";
 
-export default function DisordersCarousel() {
+function Carousel({ data }) {
     const [selectedDisorder, setSelectedDisorder] = useState(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const cardsPerView = 3;
 
     const isPrevDisabled = currentSlide === 0;
-    const isNextDisabled = currentSlide >= disorders.length - cardsPerView;
+    const isNextDisabled = currentSlide >= data.length - cardsPerView;
 
     const handlePrev = () => {
         if (!isPrevDisabled) {
@@ -20,72 +20,64 @@ export default function DisordersCarousel() {
 
     const handleNext = () => {
         if (!isNextDisabled) {
-            setCurrentSlide((prev) => Math.min(prev + 1, disorders.length - cardsPerView));
+            setCurrentSlide((prev) => Math.min(prev + 1, data.length - cardsPerView));
         }
     };
 
     return (
-        <div className="bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 text-gray-800 min-h-screen p-8 relative overflow-hidden">
-            <div className="absolute inset-0 bg-opacity-20 bg-cover bg-center z-[-1]" style={{ backgroundImage: 'url("/images/back1.png")' }}></div>
-            <h1 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r text-shadow-md p-2 rounded-lg">Explore Mental Health Disorders</h1>
-
-            <div className="relative flex items-center justify-center py-8">
-                <button
-                    onClick={handlePrev}
-                    className={`absolute left-0 bg-white hover:bg-blue-100 shadow-md rounded-full z-10 p-2 ${
-                        isPrevDisabled ? "opacity-50 cursor-not-allowed" : ""
+        <div className="relative flex items-center justify-center py-8">
+            <button
+                onClick={handlePrev}
+                className={`absolute left-0 bg-white hover:bg-blue-100 shadow-md rounded-full z-10 p-2 ${isPrevDisabled ? "opacity-50 cursor-not-allowed" : ""
                     }`}
-                    disabled={isPrevDisabled}
-                >
-                    <ChevronLeftIcon className="h-8 w-8 text-blue-600" />
-                </button>
+                disabled={isPrevDisabled}
+            >
+                <ChevronLeftIcon className="h-8 w-8 text-blue-600" />
+            </button>
 
-                <div className="overflow-hidden w-full max-w-5xl">
-                    <div
-                        className="flex transition-transform duration-500"
-                        style={{ transform: `translateX(-${currentSlide * (100 / cardsPerView)}%)` }}
-                    >
-                        {disorders.map((disorder, index) => (
-                            <div key={index} className="flex-none w-1/3 px-4">
-                                <div
-                                    className="bg-gradient-to-r from-white to-blue-50 p-4 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 h-72 flex flex-col items-center justify-between"
-                                    onClick={() => setSelectedDisorder(disorder)}
-                                >
-                                    <div className="w-full h-32 rounded-lg overflow-hidden">
-                                        <img
-                                            src={disorder.image}
-                                            alt={`${disorder.name} image`}
-                                            className="h-full w-full object-cover"
-                                        />
-                                    </div>
-                                    <div className="mt-4 text-center">
-                                        <h2 className="text-lg font-bold text-blue-700">{disorder.name}</h2>
-                                        <p className="mt-2 text-gray-600 text-sm line-clamp-3">
-                                            {disorder.description}
-                                        </p>
-                                    </div>
-                                    <button
-                                        className="mt-4 py-2 px-4 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition-colors duration-300"
-                                    >
-                                        Learn More
-                                    </button>
+            <div className="overflow-hidden w-full max-w-5xl">
+                <div
+                    className="flex transition-transform duration-500"
+                    style={{ transform: `translateX(-${currentSlide * (100 / cardsPerView)}%)` }}
+                >
+                    {data.map((disorder, index) => (
+                        <div key={index} className="flex-none w-1/3 px-4">
+                            <div
+                                className="bg-gradient-to-r from-white to-blue-50 p-4 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 h-72 flex flex-col items-center justify-between"
+                                onClick={() => setSelectedDisorder(disorder)}
+                            >
+                                <div className="w-full h-32 rounded-lg overflow-hidden">
+                                    <img
+                                        src={disorder.image}
+                                        alt={`${disorder.name} image`}
+                                        className="h-full w-full object-cover"
+                                    />
                                 </div>
+                                <div className="mt-4 text-center">
+                                    <h2 className="text-lg font-bold text-blue-700">{disorder.name}</h2>
+                                    <p className="mt-2 text-gray-600 text-sm line-clamp-3">
+                                        {disorder.description}
+                                    </p>
+                                </div>
+                                <button
+                                    className="mt-4 py-2 px-4 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition-colors duration-300"
+                                >
+                                    Learn More
+                                </button>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
-
-                <button
-                    onClick={handleNext}
-                    className={`absolute right-0 bg-white hover:bg-blue-100 shadow-md rounded-full z-10 p-2 ${
-                        isNextDisabled ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                    disabled={isNextDisabled}
-                >
-                    <ChevronRightIcon className="h-8 w-8 text-blue-600" />
-                </button>
             </div>
-            
+
+            <button
+                onClick={handleNext}
+                className={`absolute right-0 bg-white hover:bg-blue-100 shadow-md rounded-full z-10 p-2 ${isNextDisabled ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
+                disabled={isNextDisabled}
+            >
+                <ChevronRightIcon className="h-8 w-8 text-blue-600" />
+            </button>
 
             {/* Disorder Detail Modal */}
             {selectedDisorder && (
@@ -175,6 +167,17 @@ export default function DisordersCarousel() {
                     animation: fade-in 0.3s ease forwards;
                 }
             `}</style>
+        </div>
+    );
+}
+
+export default function DisordersCarousel() {
+    return (
+        <div className="bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 text-gray-800 min-h-screen p-8 relative overflow-hidden">
+            <div className="absolute inset-0 bg-opacity-20 bg-cover bg-center z-[-1]" style={{ backgroundImage: 'url("/images/back1.png")' }}></div>
+            <h1 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r text-shadow-md p-2 rounded-lg">Explore Mental Health Disorders</h1>
+            <Carousel data={disorders} />
+            <Carousel data={additionalDisorders} />
         </div>
     );
 }
