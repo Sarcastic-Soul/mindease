@@ -25,7 +25,7 @@ export default function DashboardPage() {
     try {
       const res = await axios.post("/api/users/profile");
       setUsername(res.data.data.username);
-      
+
     } catch (error) {
       console.error(error.message);
     }
@@ -116,9 +116,12 @@ export default function DashboardPage() {
             </>
           )}
         </div>
-        
+        <script
+          id="6759d636e5216832551e7a28"
+          src="https://app.droxy.ai/chat.min.js"
+          defer>
+        </script>
       </main>
-
       {
         isProfileMenuOpen && (
           <div
