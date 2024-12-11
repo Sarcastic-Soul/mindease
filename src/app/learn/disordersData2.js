@@ -1,4 +1,4 @@
-const additionalDisorders = [
+const disordersData2 = [
     {
         name: "Eating Disorder",
         description: "Eating disorders are characterized by abnormal or disturbed eating habits that negatively affect health, emotions, and quality of life. They include conditions such as anorexia nervosa, bulimia nervosa, and binge-eating disorder.",
@@ -70,7 +70,79 @@ const additionalDisorders = [
         resources: [
             { title: "DBSA - Bipolar Disorder Overview", url: "https://www.dbsalliance.org/education/bipolar-disorder/" }
         ],
-    }
+    },
+    {
+        name: "OCD",
+        description: "Obsessive-Compulsive Disorder (OCD) is a chronic mental disorder where a person has uncontrollable, recurring thoughts (obsessions) and behaviors (compulsions) that they feel the urge to repeat over and over.",
+        image: "/images/ocd.jpg",
+        symptoms: [
+            "Excessive fear of contamination",
+            "Unwanted thoughts of harm or taboo topics",
+            "Repetitive behaviors (e.g., handwashing, checking)",
+            "Rigid adherence to routines"
+        ],
+        problems: [
+            "Disruption in daily life",
+            "Difficulty maintaining relationships",
+            "Excessive time spent on rituals",
+            "Heightened stress and anxiety"
+        ],
+        cureMethods: ["Exposure Response Prevention (ERP)", "Cognitive Behavioral Therapy (CBT)", "Medication (SSRIs)"],
+        popularPeople: ["Leonardo DiCaprio", "Howard Hughes"],
+        prevalence: "Approximately 1-2% of the global population",
+        ageGroup: "Typically develops in adolescence or early adulthood",
+        resources: [
+            { title: "IOCDF - OCD Overview", url: "https://iocdf.org/about-ocd/" }
+        ],
+    },
+    {
+        name: "Autism",
+        description: "A developmental disorder that affects communication and behavior, often marked by repetitive behaviors and challenges with social interactions.",
+        image: "/images/autism.png",
+        symptoms: [
+            "Difficulty with social communication",
+            "Repetitive behaviors or interests",
+            "Sensitivity to sensory input",
+            "Preference for routines and order"
+        ],
+        problems: [
+            "Difficulty forming relationships",
+            "Challenges in academic or occupational settings",
+            "Stigma and misunderstanding",
+            "Increased anxiety and stress"
+        ],
+        cureMethods: ["Behavioral therapy", "Speech and occupational therapy", "Supportive educational programs"],
+        popularPeople: ["Temple Grandin", "Greta Thunberg"],
+        prevalence: "1 in 100 children globally",
+        ageGroup: "Usually diagnosed in early childhood",
+        resources: [
+            { title: "Autism Speaks - Overview", url: "https://www.autismspeaks.org/" }
+        ],
+    },
+    {
+        name: "Panic Disorder",
+        description: "A type of anxiety disorder characterized by recurrent, unexpected panic attacks.",
+        image: "/images/panic.png",
+        symptoms: [
+            "Sudden and intense fear",
+            "Racing heart or palpitations",
+            "Shortness of breath",
+            "Sweating or chills"
+        ],
+        problems: [
+            "Avoidance of situations that trigger attacks",
+            "Disruption in daily activities",
+            "Increased risk of depression",
+            "Physical health impacts from chronic stress"
+        ],
+        cureMethods: ["Cognitive Behavioral Therapy (CBT)", "Relaxation techniques", "Medication (SSRIs, Benzodiazepines)"],
+        popularPeople: ["Kim Basinger", "Johnny Depp"],
+        prevalence: "Approximately 2-3% of adults globally",
+        ageGroup: "Typically begins in late teens or early adulthood",
+        resources: [
+            { title: "APA - Panic Disorder Overview", url: "https://www.apa.org/topics/anxiety/panic-disorder" }
+        ],
+    },
 ];
 
-export default additionalDisorders;
+export default disordersData2;

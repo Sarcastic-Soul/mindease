@@ -72,7 +72,6 @@ export default function DashboardPage() {
               alt="User profile picture"
               className="w-12 h-12 rounded-full border-2 border-blue-500"
             />
-            {/* Wrap username with Link component */}
 
             <span className="text-xl font-semibold text-gray-700 cursor-pointer">
               {username || "User"}
@@ -145,7 +144,7 @@ export default function DashboardPage() {
               <h3 className="text-lg font-semibold mb-2 text-blue-600">Detected Disorders:</h3>
               <ul className="mt-2 space-y-3">
                 {detectedDisorders.map((disorder, index) => (
-                  <li key={index} className="flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow transition-transform transform hover:scale-105">
+                  <li key={index} className="flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow">
                     <span className="font-medium text-gray-800">{disorder.disorderName}</span>
                     <span className={`text-sm ${disorder.severity !== null ? 'text-blue-400' : 'text-yellow-400'} ml-4`}>
                       {disorder.severity !== null ? `${disorder.severity}` : 'Pending'}
@@ -155,7 +154,7 @@ export default function DashboardPage() {
               </ul>
 
               <button
-                className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-400 transition duration-300"
+                className="bg-rose-500 text-white py-2 px-4 mt-4 rounded-lg hover:bg-rose-400 transition duration-300"
                 onClick={async () => {
                   await axios.get("/api/users/logout");
                   router.push("/");

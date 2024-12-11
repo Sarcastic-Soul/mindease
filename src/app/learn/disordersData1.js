@@ -1,4 +1,4 @@
-const disorders = [
+const disordersData1 = [
     {
         name: "Depression",
         description: "A mental health disorder characterized by persistently depressed mood.",
@@ -78,6 +78,30 @@ const disorders = [
             { title: "NIMH - PTSD Overview", url: "https://www.nimh.nih.gov/health/statistics/post-traumatic-stress-disorder-ptsd" }
         ],
     },
+    {
+        name: "DID",
+        description: "Dissociative Identity Disorder (DID) is a severe form of dissociation, a mental process that produces a lack of connection in a person's thoughts, memory, and sense of identity.",
+        image: "/images/did.png",
+        symptoms: [
+            "Presence of two or more distinct identities",
+            "Gaps in memory or blackouts",
+            "Difficulty distinguishing reality",
+            "Emotional detachment"
+        ],
+        problems: [
+            "Disruption in personal relationships",
+            "Difficulty with memory and time management",
+            "Struggles with self-identity",
+            "Stigma and misunderstanding"
+        ],
+        cureMethods: ["Trauma-focused therapy", "Medication for co-occurring conditions", "Stress management techniques"],
+        popularPeople: ["Herschel Walker", "Truddi Chase"],
+        prevalence: "Rare, affects about 1% of the population",
+        ageGroup: "Can develop at any age, often linked to childhood trauma",
+        resources: [
+            { title: "Cleveland Clinic - DID Overview", url: "https://my.clevelandclinic.org/health/diseases/9792-dissociative-identity-disorder" }
+        ],
+    },
 ];
 
-export default disorders;
+export default disordersData1;

@@ -1,19 +1,12 @@
-import { StarIcon } from "@heroicons/react/solid";
+import { FireIcon } from "@heroicons/react/solid";
 
 const StreakComponent = ({ streak }) => {
     const streakCount = Math.max(streak, 0);
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center ">
             <span className="text-lg font-semibold text-gray-800">Streak: {streakCount}</span>
-            <div className="flex gap-1">
-                {Array.from({ length: streakCount }).map((_, index) => (
-                    <StarIcon
-                        key={index}
-                        className="h-6 w-6 text-amber-500 animate-pulse"
-                    />
-                ))}
-            </div>
+            <FireIcon className="h-8 w-8 text-red-600" />
         </div>
     );
 };
