@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
@@ -39,11 +38,10 @@ const LoginPage = () => {
       setLoading(true);
       const response = await axios.post("/api/users/login", user);
       console.log("Login success", response.data);
-      router.push("/dashboard");
+      router.replace("/dashboard");
     } catch (error) {
       console.log("Login failed");
-      setErrorMessage("Email or password entered is incorrect.");
-      toast.error(error.message);
+      setErrorMessage(error.response.data.error);
     } finally {
       setLoading(false);
     }
@@ -69,7 +67,7 @@ const LoginPage = () => {
 
       <div className="max-w-lg w-full">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:shadow-xl">
-          <div className="p-8">
+          <div className="py-6 px-8">
             <h2 className="text-center text-3xl font-bold text-blue-800">
               Welcome Back
             </h2>
@@ -124,6 +122,12 @@ const LoginPage = () => {
                   </div>
                 </div>
               </div>
+              <Link
+                href={"/auth/forgot-password"}
+                className="font-medium text-blue-500 hover:text-teal-500 transition duration-200"
+              >
+                Forgot password?
+              </Link>
 
               <div>
                 <button
@@ -139,15 +143,15 @@ const LoginPage = () => {
                 </button>
               </div>
             </div>
+            {errorMessage && (
+              <div className="px-8 mt-4 text-center text-red-600">
+                {errorMessage}
+              </div>
+            )}
           </div>
-          {errorMessage && (
-            <div className="px-8 py-4 text-center text-red-600">
-              {errorMessage}
-            </div>
-          )}
 
           <div className="px-8 py-4 bg-blue-50 text-center">
-            <span className="text-blue-700">Don't have an account?</span>
+            <span className="text-blue-700">Don't have an account? </span>
             <Link
               href="/auth/signup"
               className="font-medium text-blue-500 hover:text-teal-500 transition duration-200"
