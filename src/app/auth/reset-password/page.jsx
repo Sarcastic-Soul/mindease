@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
-function ResetPasswordPage() {
+function ResetPasswordContent() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
@@ -32,7 +32,7 @@ function ResetPasswordPage() {
             });
             if (response.data.success) {
                 setMessage("Password has been reset successfully.");
-                router.replace("/auth/login")
+                router.replace("/auth/login");
             } else {
                 setError(response.data.message || "Error resetting password.");
             }
@@ -51,12 +51,12 @@ function ResetPasswordPage() {
         >
             <style>
                 {`
-          @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-        `}
+                    @keyframes gradient {
+                        0% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                        100% { background-position: 0% 50%; }
+                    }
+                `}
             </style>
 
             <div className="max-w-lg w-full mx-4">
@@ -72,9 +72,6 @@ function ResetPasswordPage() {
                         <div className="mt-8 space-y-6">
                             <form onSubmit={handleSubmit}>
                                 <div className="relative">
-                                    <label htmlFor="password" className="sr-only">
-                                        New Password
-                                    </label>
                                     <input
                                         id="password"
                                         type={showPassword ? "text" : "password"}
@@ -96,9 +93,6 @@ function ResetPasswordPage() {
                                     </div>
                                 </div>
                                 <div className="mt-4">
-                                    <label htmlFor="confirmPassword" className="sr-only">
-                                        Confirm Password
-                                    </label>
                                     <input
                                         id="confirmPassword"
                                         type="password"
@@ -153,4 +147,10 @@ function ResetPasswordPage() {
     );
 }
 
-export default ResetPasswordPage;
+export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ResetPasswordContent />
+        </Suspense>
+    );
+}
