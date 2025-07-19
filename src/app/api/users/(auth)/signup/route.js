@@ -10,7 +10,6 @@ export async function POST(request) {
     try {
         const reqBody = await request.json()
         const { username, email, password } = reqBody;
-        // console.log(username, email, password);
 
         const existingUserByUsername = await User.findOne({ username });
         const existingUserByEmail = await User.findOne({ email });
@@ -57,13 +56,11 @@ export async function POST(request) {
             console.log('User created');
         }
 
-        const emailResponse = await sendVerificationEmail(email, username, verifyCode);
-        console.log(emailResponse)
-        if (emailResponse.success) {
-            return NextResponse.json({ success: true, message: 'Verification email sent' }, { status: 201 });
-        } else {
-            return NextResponse.json({ error: emailResponse.message }, { status: 500 });
-        }
+        return NextResponse.json({
+            success: true,
+            message: 'Verification email code generated',
+            verifyCode,
+        });
 
     } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 })

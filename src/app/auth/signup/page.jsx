@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { sendVerificationEmail } from "@/utils/sendVerificationEmail";
 
 const SignupPage = () => {
     const [user, setUser] = useState({
@@ -38,7 +39,15 @@ const SignupPage = () => {
         try {
             setLoading(true);
             const response = await axios.post("/api/users/signup", user);
-            console.log("Signup success", response.data);
+
+            const { verifyCode } = response.data;
+            const emailResponse = await sendVerificationEmail(user.email, user.username, verifyCode);
+
+            if (!emailResponse.success) {
+                setError("Failed to send verification email. Please try again.");
+                return;
+            }
+
             router.replace(`/auth/verify/${user.username}`);
         } catch (error) {
             console.log(error.response.data.error);
@@ -63,7 +72,7 @@ const SignupPage = () => {
         if (username) {
             try {
                 const response = await axios.get(`/api/users/unique-username?username=${username}`);
-                console.log("Username check response", response.data);
+                // console.log("Username check response", response.data);
                 if (!response.data.success) {
                     setUsernameStatus("Username already taken.");
                     setUsernameError(response.data.message);

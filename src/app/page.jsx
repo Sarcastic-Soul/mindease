@@ -7,7 +7,6 @@ import { CheckCircleIcon, UsersIcon, ChartBarIcon, ChatAltIcon, BookOpenIcon } f
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-200 via-white to-blue-100 text-gray-800 font-sans">
-      {/* Logo on Top Left */}
       <Link href="/" className="absolute top-4 left-10 z-20 flex items-center space-x-2">
         <Image
           src="/logo.svg"
@@ -49,7 +48,6 @@ export default function LandingPage() {
         </div>
       </main>
 
-      {/* What We Offer Section */}
       <section className="py-16 px-4 bg-blue-50">
         <div className="max-w-5xl mx-auto text-center">
           <h3 className="text-3xl font-semibold mb-10 text-gray-800">What We Offer</h3>
@@ -67,8 +65,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <FAQSection></FAQSection>
+      <FAQSection />
 
       {/* Footer */}
       <footer className="bg-white py-8 text-gray-500">
@@ -76,8 +73,7 @@ export default function LandingPage() {
           <p className="text-gray-700 font-medium">&copy; {new Date().getFullYear()} MindEase</p>
           <nav className="flex justify-center space-x-8 text-sm">
             <Link href="/about" className="hover:text-gray-700">About</Link>
-            <Link href="/resources" className="hover:text-gray-700">Resources</Link>
-            <Link href="/contact" className="hover:text-gray-700">Contact</Link>
+            <Link href="/contact-us" className="hover:text-gray-700">Contact</Link>
           </nav>
         </div>
       </footer>
@@ -85,7 +81,6 @@ export default function LandingPage() {
   );
 }
 
-// Features data
 const features = [
   {
     title: "Personalized Diagnostic Tools",
@@ -111,21 +106,5 @@ const features = [
     title: "Learning Hub",
     description: "Explore detailed information on mental health disorders, coping strategies, and self-care practices.",
     icon: <BookOpenIcon className="h-12 w-12 text-orange-500" />,
-  },
-];
-
-// FAQ data
-const faqs = [
-  {
-    question: "How does MindEase diagnose mental health conditions?",
-    answer: "MindEase utilizes evidence-based questionnaires to assess symptoms, providing insights into potential mental health concerns.",
-  },
-  {
-    question: "How secure is my personal information?",
-    answer: "Your privacy is our priority. All data is securely stored, encrypted, and accessible only to you.",
-  },
-  {
-    question: "Can I connect with a mental health professional?",
-    answer: "MindEase offers resources and support, but for professional therapy, we recommend consulting a licensed mental health provider.",
   },
 ];

@@ -2,28 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Define color variables for light mode */
-:root {
-  --foreground-rgb: 0, 0, 0;
-  /* Text color */
-  --background-start-rgb: 214, 219, 220;
-  /* Start color of the background gradient */
-  --background-end-rgb: 255, 255, 255;
-  /* End color of the background gradient */
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    /* Text color for dark mode */
-    --background-start-rgb: 0, 0, 0;
-    /* Start color of the background for dark mode */
-    --background-end-rgb: 0, 0, 0;
-    /* End color of the background for dark mode */
-  }
-}
-
 /* Body styling */
 body {
   color: rgb(var(--foreground-rgb));
