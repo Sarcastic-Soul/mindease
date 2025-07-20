@@ -35,7 +35,7 @@ export const POST = async (req) => {
         }
 
         disorder.severity = severity;
-        await user.save(); // Save updated user data
+        await user.save();
 
         return new Response(JSON.stringify({ message: "Disorder severity updated successfully." }), {
             status: 200,

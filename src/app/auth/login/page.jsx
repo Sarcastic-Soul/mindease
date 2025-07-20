@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { Eye, EyeClosed } from "lucide-react";
 
 const LoginPage = () => {
   const [user, setUser] = useState({
@@ -115,9 +115,9 @@ const LoginPage = () => {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-blue-400"
                   >
                     {showPassword ? (
-                      <EyeOffIcon className="h-5 w-5" />
+                      <EyeClosed className="h-5 w-5" />
                     ) : (
-                      <EyeIcon className="h-5 w-5" />
+                      <Eye className="h-5 w-5" />
                     )}
                   </div>
                 </div>

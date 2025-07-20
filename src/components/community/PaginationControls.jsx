@@ -1,82 +1,67 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const PaginationControls = ({ currentPage, totalPages, setCurrentPage }) => {
     const getPageNumbers = () => {
-        const delta = 2;
-        const range = [];
-        for (
-            let i = Math.max(1, currentPage - delta);
-            i <= Math.min(totalPages, currentPage + delta);
-            i++
-        ) {
+        const delta = 1;
+        let range = [];
+        for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
             range.push(i);
         }
-        return range;
+
+        if (currentPage - delta > 2) {
+            range.unshift("...");
+        }
+        if (currentPage + delta < totalPages - 1) {
+            range.push("...");
+        }
+
+        range.unshift(1);
+        if (totalPages > 1) {
+            range.push(totalPages);
+        }
+
+        // Remove duplicates that might occur if totalPages is small
+        return [...new Set(range)];
     };
 
+    if (totalPages <= 1) return null;
+
     return (
-        <div className="flex justify-center items-center mt-6 gap-2">
+        <div className="flex justify-center items-center mt-8 gap-2">
             <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="p-2 rounded-full enabled:text-gray-700 hover:bg-gray-400 disabled:hover:bg-transparent disabled:text-gray-300 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg bg-white shadow-sm hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition"
                 aria-label="Previous page"
             >
-                <ChevronLeftIcon className="w-5 h-5" />
+                <ChevronLeft className="w-5 h-5" />
             </button>
 
-            {getPageNumbers()[0] > 1 && (
-                <>
+            {getPageNumbers().map((pageNum, index) => (
+                 pageNum === "..." ? (
+                    <span key={`ellipsis-${index}`} className="px-2 text-gray-500">...</span>
+                 ) : (
                     <button
-                        onClick={() => setCurrentPage(1)}
-                        className={`w-8 h-8 rounded-full border-2 ${currentPage === 1
-                            ? "bg-blue-500 border-blue-600 text-white"
-                            : "text-gray-700 border-gray-200 hover:bg-gray-100"
-                            }`}
-                    >
-                        1
-                    </button>
-                    {getPageNumbers()[0] > 2 && <span className="px-2">...</span>}
-                </>
-            )}
-
-            {getPageNumbers().map(pageNum => (
-                <button
-                    key={pageNum}
-                    onClick={() => setCurrentPage(pageNum)}
-                    className={`w-8 h-8 rounded-full border-2 ${currentPage === pageNum
-                        ? "bg-blue-500 border-blue-600 text-white"
-                        : "text-gray-700 border-gray-200 hover:bg-gray-100"
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`w-10 h-10 rounded-lg shadow-sm font-semibold transition-colors ${
+                            currentPage === pageNum
+                                ? "bg-blue-600 text-white"
+                                : "bg-white text-gray-700 hover:bg-gray-100"
                         }`}
-                >
-                    {pageNum}
-                </button>
-            ))}
-
-            {getPageNumbers()[getPageNumbers().length - 1] < totalPages && (
-                <>
-                    {getPageNumbers()[getPageNumbers().length - 1] < totalPages - 1 && (
-                        <span className="px-2">...</span>
-                    )}
-                    <button
-                        onClick={() => setCurrentPage(totalPages)}
-                        className={`w-8 h-8 rounded-full border-2 ${currentPage === totalPages
-                            ? "bg-blue-600 border-blue-800 text-white"
-                            : "text-gray-700 border-gray-200 hover:bg-gray-100"
-                            }`}
                     >
-                        {totalPages}
+                        {pageNum}
                     </button>
-                </>
-            )}
+                 )
+            ))}
 
             <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="p-2 rounded-full hover:bg-gray-400 disabled:hover:bg-transparent enabled:text-gray-700 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg bg-white shadow-sm hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition"
                 aria-label="Next page"
             >
-                <ChevronRightIcon className="w-5 h-5" />
+                <ChevronRight className="w-5 h-5" />
             </button>
         </div>
     );

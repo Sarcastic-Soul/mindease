@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users', 
+        ref: 'users',
         required: true
     },
     title: {
@@ -13,6 +13,10 @@ const postSchema = new mongoose.Schema({
     message: {
         type: String,
         required: true
+    },
+    imageUrl: {
+        type: String,
+        default: ''
     },
     likes: {
         type: Number,

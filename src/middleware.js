@@ -5,7 +5,7 @@ export function middleware(request) {
     const publicPaths = ['/auth/login', '/auth/signup','/']
     const isPublicPath = publicPaths.includes(path)
     const token = request.cookies.get("token")?.value || ''
-
+    
     // If the user is logged in and trying to access a public path (login, signup, or homepage),
     // redirect them to the dashboard
     if (isPublicPath && token) {

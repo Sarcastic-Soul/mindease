@@ -1,170 +1,95 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import { XIcon, ClipboardCheckIcon } from "@heroicons/react/outline";
-import Sidebar from "./sidebar";
-import Link from "next/link";
+import Sidebar from "@/components/Dashboard/Sidebar";
+import DashboardContent from "@/components/Dashboard/DashboardContent";
+import TasksPage from "@/components/Tasks/TasksPage";
+import MeditationPage from "@/components/Meditation/MeditationPage";
+import LearnPage from "@/components/Learn/LearnPage";
+import CommunityPage from "@/components/Community/CommunityPage";
+import { LoaderCircle } from "lucide-react";
+import GeminiPal from "@/components/Chat/GeminiPal";
 
-export default function DashboardPage() {
-  const router = useRouter();
-  const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
-  const [username, setUsername] = useState("");
-  const [hasCompletedQuestionnaire, setHasCompletedQuestionnaire] = useState(false);
-  const [detectedDisorders, setDetectedDisorders] = useState([]);
-  const [loading, setLoading] = useState(true);
+// A small wrapper component to use the search params hook
+function DashboardView() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
+    const initialView = searchParams.get("tab") || "dashboard";
 
-  useEffect(() => {
-    getUserName();
-    checkQuestionnaireStatus();
-  }, []);
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [activeView, setActiveView] = useState(initialView);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  const getUserName = async () => {
-    try {
-      const res = await axios.post("/api/users/profile");
-      setUsername(res.data.data.username);
+    const fetchUser = async () => {
+        try {
+            const res = await axios.get("/api/users/profile");
+            setUser(res.data.data);
+        } catch (error) {
+            console.error("Error fetching profile:", error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+    useEffect(() => {
+        fetchUser();
+    }, []);
 
-  const checkQuestionnaireStatus = async () => {
-    try {
-      const res = await axios.post("/api/users/profile");
-      const mentalDisorders = res.data.data.mentalDisorders || [];
-      setHasCompletedQuestionnaire(mentalDisorders.length > 0);
-      const disorders = mentalDisorders.map(disorder => ({
-        disorderName: disorder.disorderName,
-        severity: disorder.severity,
-      }));
-      setDetectedDisorders(disorders);
-    } catch (error) {
-      console.error("Error checking questionnaire status:", error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const handleSetView = (view) => {
+        setActiveView(view);
+        router.push(`/dashboard?tab=${view}`, { scroll: false });
+    };
 
-  const handleQuestionnaireStart = () => {
-    router.push("/questionnaire");
-  };
+    const renderContent = () => {
+        if (loading) {
+            return (
+                <div className="w-full h-full flex justify-center items-center">
+                    <LoaderCircle className="animate-spin text-blue-500" size={48} />
+                </div>
+            );
+        }
+        switch (activeView) {
+            case "dashboard":
+                return <DashboardContent user={user} loading={loading} />;
+            case "tasks":
+                return <TasksPage user={user} loading={loading} fetchUser={fetchUser} />;
+            case "meditation":
+                return <MeditationPage />;
+            case "learn":
+                return <LearnPage />;
+            case "community":
+                return <CommunityPage />;
+            case "chat":
+                return <GeminiPal user={user} />;
+            default:
+                return <DashboardContent user={user} loading={loading} />;
+        }
+    };
 
-  const handleSeverityTest = (disorder) => {
-    router.push(`/severity-tests/${disorder}`);
-  };
-
-  return (
-    <div className="flex h-screen bg-gradient-to-br from-blue-200 to-blue-300 text-gray-900">
-      <Sidebar></Sidebar>
-      <main className="flex-1 p-6 bg-white rounded-lg shadow-lg">
-        <header className="flex justify-between items-center mb-6">
-          <h1 className="text-4xl font-extrabold text-blue-600">Welcome to Your Dashboard!</h1>
-          <div
-            className="flex items-center space-x-4 cursor-pointer"
-            onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
-            aria-label="Profile menu"
-          >
-            <img
-              src="/pfp.png"
-              alt="User profile picture"
-              className="w-12 h-12 rounded-full border-2 border-blue-500"
+    return (
+        <div className="flex h-screen bg-gray-50 overflow-hidden">
+            <Sidebar
+                isCollapsed={isCollapsed}
+                setIsCollapsed={setIsCollapsed}
+                activeView={activeView}
+                setActiveView={handleSetView}
+                user={user}
             />
-
-            <span className="text-xl font-semibold text-gray-700 cursor-pointer">
-              {username || "User"}
-            </span>
-          </div>
-        </header>
-
-        <div className="text-lg leading-relaxed mb-8 text-gray-800">
-          {loading ? (
-            <p>Loading...</p>
-          ) : !hasCompletedQuestionnaire ? (
-            <button
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-400 transition duration-300"
-              onClick={handleQuestionnaireStart}
-            >
-              Start Main Questionnaire
-            </button>
-          ) : (
-            <>
-              {detectedDisorders.length > 0 ? (
-                <>
-                  <p>Based on your questionnaire, please complete the following severity tests:</p>
-                  <ul className="mt-4 space-y-2">
-                    {detectedDisorders
-                      .filter(disorder => disorder.severity === null)
-                      .map((disorder, index) => (
-                        <li key={index} className="flex items-center">
-                          <ClipboardCheckIcon className="w-5 h-5 text-blue-500 mr-2" />
-                          <button
-                            className="text-blue-600 hover:bg-gray-200 p-2 rounded-lg transition duration-300"
-                            onClick={() => handleSeverityTest(disorder.disorderName)}
-                          >
-                            {disorder.disorderName} Severity Test
-                          </button>
-                        </li>
-                      ))}
-                  </ul>
-                </>
-              ) : (
-                <p>You have completed the main questionnaire. No severity tests needed at this time.</p>
-              )}
-            </>
-          )}
+            <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+                {renderContent()}
+            </main>
         </div>
-      </main>
-      {
-        isProfileMenuOpen && (
-          <div
-            className="fixed top-0 right-0 w-72 h-full bg-white p-4 rounded-l-lg shadow-lg"
-            role="dialog"
-          >
-            <button
-              className="absolute top-4 right-4 text-gray-900 hover:text-gray-600"
-              onClick={() => setProfileMenuOpen(false)}
-              aria-label="Close profile menu"
-            >
-              <XIcon className="w-6 h-6" />
-            </button>
-            <div className="flex flex-col items-center mt-12">
-              <img
-                src="/pfp.png"
-                alt="User profile picture"
-                className="w-24 h-24 rounded-full border-4 border-blue-500 mb-4"
-              />
-              <Link href="/profile">
-                <span className="text-xl font-semibold mb-4 text-gray-800">{username}</span>
-              </Link>
-              <h3 className="text-lg font-semibold mb-2 text-blue-600">Detected Disorders:</h3>
-              <ul className="mt-2 space-y-3">
-                {detectedDisorders.map((disorder, index) => (
-                  <li key={index} className="flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow">
-                    <span className="font-medium text-gray-800">{disorder.disorderName}</span>
-                    <span className={`text-sm ${disorder.severity !== null ? 'text-blue-400' : 'text-yellow-400'} ml-4`}>
-                      {disorder.severity !== null ? `${disorder.severity}` : 'Pending'}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+    );
+}
 
-              <button
-                className="bg-rose-500 text-white py-2 px-4 mt-4 rounded-lg hover:bg-rose-400 transition duration-300"
-                onClick={async () => {
-                  console.log("Logging out...");
-                  await axios.get("/api/users/logout");
-                  router.replace("/");
-                }}
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        )
-      }
-    </div >
-  );
+// The main export now wraps the page in a Suspense boundary
+export default function DashboardPage() {
+    return (
+        <Suspense fallback={<div className="w-full h-screen flex justify-center items-center"><LoaderCircle className="animate-spin text-blue-500" size={48} /></div>}>
+            <DashboardView />
+        </Suspense>
+    )
 }

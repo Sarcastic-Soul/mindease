@@ -3,26 +3,27 @@ import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import { questions } from "./questions.js";
-import { FileQuestion, AlertCircle, Send } from "lucide-react";
+import { ClipboardCheck, AlertCircle, Send } from "lucide-react";
 
-// Configuration for options with sizing and colors
+// This configuration is identical to the Questionnaire for a consistent UI
 const options = [
-    { label: "Disagree", points: 1, color: "rose-500", size: "w-7 h-7" },
-    { label: "Slightly Disagree", points: 2, color: "rose-400", size: "w-5 h-5" },
-    { label: "Neutral", points: 3, color: "gray-400", size: "w-4 h-4" },
-    { label: "Slightly Agree", points: 4, color: "teal-400", size: "w-5 h-5" },
-    { label: "Agree", points: 5, color: "teal-500", size: "w-7 h-7" },
+    { label: "Strongly Disagree", value: 1, color: "rose-500", size: "w-7 h-7" },
+    { label: "Disagree", value: 2, color: "rose-400", size: "w-5 h-5" },
+    { label: "Neutral", value: 3, color: "gray-400", size: "w-4 h-4" },
+    { label: "Agree", value: 4, color: "teal-400", size: "w-5 h-5" },
+    { label: "Strongly Agree", value: 5, color: "teal-500", size: "w-7 h-7" },
 ];
 
-const Questionnaire = () => {
+export default function SeverityTest({ disorderName, questions }) {
     const router = useRouter();
-    const [responses, setResponses] = useState({});
+    const [responses, setResponses] = useState(Array(questions.length).fill(0));
     const [unansweredIndex, setUnansweredIndex] = useState(-1);
     const questionRefs = useRef(questions.map(() => React.createRef()));
 
-    const handleInputChange = (questionId, points) => {
-        setResponses((prev) => ({ ...prev, [questionId]: points }));
+    const handleOptionChange = (index, value) => {
+        const newResponses = [...responses];
+        newResponses[index] = value;
+        setResponses(newResponses);
         if (unansweredIndex !== -1) {
             setUnansweredIndex(-1);
         }
@@ -30,7 +31,7 @@ const Questionnaire = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const firstUnanswered = questions.findIndex((q) => !responses[q.id]);
+        const firstUnanswered = responses.findIndex((response) => response === 0);
 
         if (firstUnanswered !== -1) {
             setUnansweredIndex(firstUnanswered);
@@ -41,28 +42,24 @@ const Questionnaire = () => {
             return;
         }
 
-        const disorderScores = questions.reduce((acc, q) => {
-            const points = responses[q.id];
-            if (points) {
-                acc[q.disorder] = (acc[q.disorder] || 0) + points;
-            }
-            return acc;
-        }, {});
+        const totalScore = responses.reduce((acc, curr) => acc + curr, 0);
+        const finalScore = (totalScore / responses.length) * 2; // Scale to 0-10 range
 
-        const topDisorders = Object.entries(disorderScores)
-            .sort(([, a], [, b]) => b - a)
-            .slice(0, 3)
-            .map(([name]) => ({ name }));
 
         try {
-            await axios.post("/api/users/submitQuestionnaire", { disorders: topDisorders });
+            await axios.post("/api/users/submitSeverityTest", {
+                disorderName,
+                severity: finalScore.toFixed(2),
+            });
             router.push("/dashboard");
         } catch (error) {
-            console.error("Error submitting questionnaire", error);
+            console.error("Error submitting severity test:", error);
+            alert("Failed to submit the test. Please try again.");
         }
     };
 
-    const progress = (Object.keys(responses).length / questions.length) * 100;
+    const answeredQuestions = responses.filter(r => r > 0).length;
+    const progress = (answeredQuestions / questions.length) * 100;
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-800">
@@ -77,39 +74,37 @@ const Questionnaire = () => {
 
             <div className="max-w-4xl mx-auto px-4 py-16 sm:py-20">
                 <div className="text-center mb-12">
-                    <FileQuestion className="mx-auto text-blue-600 mb-2" size={40} />
+                    <ClipboardCheck className="mx-auto text-blue-600 mb-2" size={40} />
                     <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
-                        Mental Wellness Questionnaire
+                        {`${disorderName} Assessment`}
                     </h1>
-                    <p className="text-gray-500 mt-2">Answer honestly to get the most accurate insights.</p>
+                    <p className="text-gray-500 mt-2">Rate how much you've been bothered by the following.</p>
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                    {questions.map(({ id, question }, index) => (
+                    {questions.map((question, index) => (
                         <motion.div
-                            key={id}
+                            key={index}
                             ref={questionRefs.current[index]}
                             className="rounded-xl text-center"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.05 }}
                         >
-                            {/* Question Text */}
-                            <p className="text-xl font-medium text-gray-700 mb-4">{question}</p>
+                            <p className="text-lg font-medium text-gray-700 mb-4">{`${question}`}</p>
 
-                            {/* Options with Labels */}
                             <div className="flex items-center justify-center gap-4">
                                 <span className="font-semibold text-rose-600">Disagree</span>
                                 <div className="flex items-center justify-center gap-3 sm:gap-4">
                                     {options.map((option) => {
-                                        const isSelected = responses[id] === option.points;
+                                        const isSelected = responses[index] === option.value;
                                         return (
-                                            <label key={option.points} className="relative cursor-pointer" title={option.label}>
+                                            <label key={option.value} className="relative cursor-pointer" title={option.label}>
                                                 <input
                                                     type="radio"
-                                                    name={`question-${id}`}
+                                                    name={`question-${index}`}
                                                     checked={isSelected}
-                                                    onChange={() => handleInputChange(id, option.points)}
+                                                    onChange={() => handleOptionChange(index, option.value)}
                                                     className="sr-only"
                                                 />
                                                 <motion.div
@@ -134,6 +129,7 @@ const Questionnaire = () => {
                                 </div>
                                 <span className="font-semibold text-teal-600">Agree</span>
                             </div>
+
 
                             <hr className="my-4 border-gray-200" />
 
@@ -165,6 +161,4 @@ const Questionnaire = () => {
             </div>
         </div>
     );
-};
-
-export default Questionnaire;
+}

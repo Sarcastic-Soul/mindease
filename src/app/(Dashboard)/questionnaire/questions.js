@@ -1,0 +1,20 @@
+export const questions = [
+  { id: 1, question: "In the last two weeks, have you felt down, depressed, or hopeless most of the day?", disorder: "Depression" },
+  { id: 2, question: "Have you lost interest or pleasure in activities you used to enjoy?", disorder: "Depression" },
+  { id: 3, question: "Do you often feel tired or have little energy?", disorder: "Depression" },
+  { id: 4, question: "Have you ever experienced mood swings from very high to very low?", disorder: "Bipolar" },
+  { id: 5, question: "Have you had periods where you needed less sleep and still felt full of energy?", disorder: "Bipolar" },
+  { id: 6, question: "Have you ever felt more self-confident than usual, leading to risky behaviors?", disorder: "Bipolar" },
+  { id: 7, question: "Do you frequently have unwanted, distressing memories or nightmares about a traumatic event?", disorder: "PTSD" },
+  { id: 8, question: "Do you try to avoid thoughts, feelings, or places that remind you of the event?", disorder: "PTSD" },
+  { id: 9, question: "Do you feel constantly on edge, easily startled, or hyper-vigilant?", disorder: "PTSD" },
+  { id: 10, question: "Do you often find it difficult to stay focused on tasks or activities?", disorder: "ADHD" },
+  { id: 11, question: "Are you easily distracted by external stimuli or unrelated thoughts?", disorder: "ADHD" },
+  { id: 12, question: "Do you often feel restless or fidgety?", disorder: "ADHD" },
+  { id: 13, question: "Have you ever experienced hearing voices or seeing things others don't see?", disorder: "Schizophrenia" },
+  { id: 14, question: "Do you sometimes feel that people are out to harm you without evidence?", disorder: "Schizophrenia" },
+  { id: 15, question: "Do you have trouble organizing your thoughts?", disorder: "Schizophrenia" },
+  { id: 16, question: "Do you often feel worried about your weight or body shape?", disorder: "Eating Disorder" },
+  { id: 17, question: "Do you engage in restrictive dieting, binge eating, or purging behaviors?", disorder: "Eating Disorder" },
+  { id: 18, question: "Do you feel out of control when eating?", disorder: "Eating Disorder" }
+];

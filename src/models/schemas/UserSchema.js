@@ -44,12 +44,11 @@ const UserSchema = new Schema({
         type: Date,
         required: [true, 'Verification code expiry is required'],
     },
-    isVerified: {
-        type: Boolean,
-        default: false,
-        index: true,
+     avatarUrl: {
+        type: String,
+        default: '',
     },
-    isAdmin: {
+    isVerified: {
         type: Boolean,
         default: false,
         index: true,
@@ -86,10 +85,6 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'posts',
     }],
-    lastActive: {
-        type: Date,
-        default: Date.now,
-    },
 }, {
     timestamps: true,
 });

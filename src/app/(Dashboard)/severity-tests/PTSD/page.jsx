@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import SeverityTest from "@/components/SeverityTest";
+import SeverityTest from "@/app/(dashboard)/severity-tests/SeverityTest";
 
 const ptsdQuestions = [
     "I frequently have flashbacks or intrusive memories of a traumatic event.",
