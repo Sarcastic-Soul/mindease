@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import SeverityTest from "@/app/(dashboard)/severity-tests/SeverityTest";
+import SeverityTest from "@/app/(Dashboard)/severity-tests/SeverityTest.jsx";
 
 const schizophreniaQuestions = [
     "I hear voices or sounds that others do not.",

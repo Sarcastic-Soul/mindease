@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import SeverityTest from "@/app/(dashboard)/severity-tests/SeverityTest";
+import SeverityTest from "@/app/(Dashboard)/severity-tests/SeverityTest.jsx";
 
 const bipolarQuestions = [
     "I go through periods of extreme happiness followed by deep sadness.",

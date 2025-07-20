@@ -2,14 +2,15 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import { LoaderCircle } from "lucide-react";
 import Sidebar from "@/components/Dashboard/Sidebar";
 import DashboardContent from "@/components/Dashboard/DashboardContent";
 import TasksPage from "@/components/Tasks/TasksPage";
 import MeditationPage from "@/components/Meditation/MeditationPage";
 import LearnPage from "@/components/Learn/LearnPage";
-import CommunityPage from "@/components/Community/CommunityPage";
-import { LoaderCircle } from "lucide-react";
+import CommunityPage from "@/components/Community/CommunityPage.jsx";
 import GeminiPal from "@/components/Chat/GeminiPal";
+
 
 // A small wrapper component to use the search params hook
 function DashboardView() {

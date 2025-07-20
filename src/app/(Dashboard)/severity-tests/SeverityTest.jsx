@@ -5,7 +5,6 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClipboardCheck, AlertCircle, Send } from "lucide-react";
 
-// This configuration is identical to the Questionnaire for a consistent UI
 const options = [
     { label: "Strongly Disagree", value: 1, color: "rose-500", size: "w-7 h-7" },
     { label: "Disagree", value: 2, color: "rose-400", size: "w-5 h-5" },
