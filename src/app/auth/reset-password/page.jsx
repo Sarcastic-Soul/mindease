@@ -3,7 +3,7 @@
 import React, { useState, Suspense } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { Eye, EyeClosed } from "lucide-react";
 
 function ResetPasswordContent() {
     const [password, setPassword] = useState("");
@@ -86,9 +86,9 @@ function ResetPasswordContent() {
                                         className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-blue-400"
                                     >
                                         {showPassword ? (
-                                            <EyeOffIcon className="h-5 w-5" />
+                                            <EyeClosed className="h-5 w-5" />
                                         ) : (
-                                            <EyeIcon className="h-5 w-5" />
+                                            <Eye className="h-5 w-5" />
                                         )}
                                     </div>
                                 </div>
