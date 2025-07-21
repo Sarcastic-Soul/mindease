@@ -44,7 +44,7 @@ export default function CommunityPage() {
         };
 
         fetchUserAndPosts();
-    }, [currentPage, sortOrder]); // Removed postsPerPage from dependency array as it's constant
+    }, [currentPage, sortOrder]);
 
     const handleLikePost = async (postToLike) => {
         if (!user) return;
