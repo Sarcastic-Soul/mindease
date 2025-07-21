@@ -10,7 +10,7 @@ import MeditationPage from "@/components/Meditation/MeditationPage";
 import LearnPage from "@/components/Learn/LearnPage";
 import CommunityPage from "@/components/Community/CommunityPage.jsx";
 import GeminiPal from "@/components/Chat/GeminiPal";
-// src/components/Community/CommunityPage.jsx
+
 function DashboardView() {
     const router = useRouter();
     const searchParams = useSearchParams();
