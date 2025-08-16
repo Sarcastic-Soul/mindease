@@ -2,6 +2,8 @@
 
 MindEase is a web application designed to assist users in assessing and improving their mental health through a comprehensive diagnostic system, mental disorder resources, and well-being tools. 💖
 
+![preview](./public/preview.png)
+
 ## Features 🚀
 
   * **Custom Authentication System:** Secure user authentication with email verification. 🔐
